@@ -1,5 +1,5 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
-.DEFAULT_GOAL := help
+.PHONY: clean-pyc clean-build docs clean help pr
+
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
 try:
@@ -11,20 +11,26 @@ webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
 endef
 export BROWSER_PYSCRIPT
 
-define PRINT_HELP_PYSCRIPT
-import re, sys
-
-for line in sys.stdin:
-	match = re.match(r'^([a-zA-Z_-]+):.*?## (.*)$$', line)
-	if match:
-		target, help = match.groups()
-		print("%-20s %s" % (target, help))
-endef
-export PRINT_HELP_PYSCRIPT
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
 help:
-	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+	@echo "Available commands:"
+	@echo "clean-build - remove build artifacts"
+	@echo "clean-pyc - remove Python file artifacts"
+	@echo "clean-test - remove test artifacts"
+	@echo "clean - run clean-build, clean-pyc, and clean-test"
+	@echo "install-dev - install development requirements"
+	@echo "fix - fix formatting & linting issues with ruff"
+	@echo "lint - run pre-commit hooks on all files"
+	@echo "typecheck - run mypy type checking"
+	@echo "test - run tests quickly with the default Python"
+	@echo "coverage - run tests with coverage report"
+	@echo "docs-ci - generate docs for CI"
+	@echo "docs - generate docs and open in browser"
+	@echo "servedocs - serve docs with live reload"
+	@echo "dist - build package and show contents"
+	@echo "pr - run clean, lint, and test (everything needed before creating a PR)"
+
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
@@ -42,22 +48,41 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*~' -exec rm -fr {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-clean-test: ## remove test and coverage artifacts
-	rm -fr .coverage
+clean-test: ## remove Tests artifacts
+	rm -fr .tox/
+	rm -fr .mypy_cache
+	rm -fr .ruff_cache
+	rm -f .coverage
 	rm -fr htmlcov/
 
+install-dev:
+	@if command -v uv >/dev/null 2>&1; then \
+		echo "Using uv..."; \
+		if [ -d ".venv" ] && [ ! -f ".venv/bin/python" ]; then \
+			echo "Warning: Broken .venv detected, recreating..."; \
+			rm -rf .venv; \
+		fi; \
+		uv venv --quiet 2>/dev/null || true; \
+		uv pip install -e ".[dev]"; \
+	else \
+		echo "Using pip..."; \
+		pip install -e ".[dev]"; \
+	fi
+
 lint: ## check style with flake8
-	flake8 dag tests
+	pre-commit run --all-files
+
+fix:
+	python -m ruff check --fix
+
+typecheck:
+	pre-commit run mypy-local --all-files
 
 test: ## run tests quickly with the default Python
-	py.test --cov=dag/ --cov-report=html --cov-report=term-missing --cov-branch
-
-
-test-all: ## run tests on every Python version with tox
-	tox
+	python -m pytest tests
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source dag -m pytest
+	coverage run --source dag -m pytest tests
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
@@ -69,20 +94,19 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst;*.py' -c '$(MAKE) -C docs html' -R -D .
+docs-ci:
+	rm -f docs/dag.rst
+	rm -f docs/modules.rst
+	sphinx-apidoc -o docs/ dag
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html SPHINXOPTS="-W"
 
-verify_description:
-	python setup.py --long-description | rst2html.py > /dev/null
+servedocs: docs
+	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
-release: clean verify_description ## package and upload a release
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
-
-dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+dist: clean
+	python -m build
 	ls -l dist
 
-install: clean ## install the package to the active Python's site-packages
-	pip install .
+pr: clean fix lint typecheck test
+	@echo "PR preparation complete! All checks passed."
