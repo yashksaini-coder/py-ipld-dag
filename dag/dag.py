@@ -1,15 +1,11 @@
-# -*- coding: utf-8 -*-
-
-"""Main module."""
-import base58
 import json
-import multihash
 from copy import deepcopy
 
+import base58
+import multihash
 from morphys import ensure_bytes
 
 from .utils import node_to_link
-
 
 # Design plan:
 # Separate serialization from the node creation, serialization is
@@ -20,14 +16,14 @@ from .utils import node_to_link
 
 # @TODO: if I can use immutable data structures, we can actually
 # @TODO: get over all the data copying overhead involved
-class Node(object):
+class Node:
     def __init__(self, data, links, serialized, multihash):
         self._data = ensure_bytes(data)
 
         if isinstance(multihash, bytes):
             self._multihash = base58.b58decode(multihash)
         else:
-            raise TypeError('multihash should be either a str or bytes object')
+            raise TypeError("multihash should be either a str or bytes object")
 
         self._serialized = serialized
         self._links = [] if links is None else links
@@ -54,10 +50,10 @@ class Node(object):
         return self._size
 
     @classmethod
-    def create(cls, data, links=None, hash_algorithm='sha2-256', serializer=json.dumps):
-        links = [l for l in links if isinstance(l, Link)] if links is not None else []
-        serialized = ensure_bytes(serializer({'data': data, 'links': links}))
-        mh = multihash.digest(serialized, hash_algorithm).encode('base58')
+    def create(cls, data, links=None, hash_algorithm="sha2-256", serializer=json.dumps):
+        links = [link for link in links if isinstance(link, Link)] if links is not None else []
+        serialized = ensure_bytes(serializer({"data": data, "links": links}))
+        mh = multihash.digest(serialized, hash_algorithm).encode("base58")
 
         return Node(data, links, serialized, mh)
 
@@ -80,9 +76,7 @@ class Node(object):
         node = deepcopy(node)
 
         node.links = [
-            link
-            for link in node.links
-            if not (node.name == name_or_multihash or node.multihash == name_or_multihash)
+            link for link in node.links if not (node.name == name_or_multihash or node.multihash == name_or_multihash)
         ]
 
         # @TODO: specify other creation parameters from the given node
@@ -95,7 +89,7 @@ class Node(object):
         return '{class_}("{multihash}", data="{data}", links={links}, size={size})'.format(
             class_=self.__class__.__name__,
             multihash=base58.b58encode(self._multihash),
-            data=self._data[:20] + '..' if len(self._data) > 20 else '',
+            data=self._data[:20] + ".." if len(self._data) > 20 else "",
             links=len(self._links),
             size=self._size,
         )
@@ -118,7 +112,7 @@ class Node(object):
         return self._size
 
 
-class Link(object):
+class Link:
     def __init__(self, name, size, multihash):
         self._name = name
         self._size = size
