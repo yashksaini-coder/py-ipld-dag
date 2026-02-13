@@ -13,10 +13,7 @@ ALLOWED_EXTENSIONS = {
     ".removal.rst",
 }
 
-ALLOWED_FILES = {
-    "validate_files.py",
-    "README"
-}
+ALLOWED_FILES = {"validate_files.py", "README"}
 
 dir = pathlib.Path(__file__).parent
 
