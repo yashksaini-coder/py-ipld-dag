@@ -54,6 +54,7 @@ clean-test: ## remove Tests artifacts
 	rm -fr .ruff_cache
 	rm -f .coverage
 	rm -fr htmlcov/
+	rm -fr .pytest_cache/
 
 install-dev:
 	@if command -v uv >/dev/null 2>&1; then \
