@@ -7,4 +7,4 @@ build:
 
 
 sphinx:
-    configutation:docs/conf.py
+    configuration: docs/conf.py

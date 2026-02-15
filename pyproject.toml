@@ -13,16 +13,19 @@ authors = [
 license = {text = "MIT license"}
 keywords = ["dag"]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
+    "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.4",
-    "Programming Language :: Python :: 3.5",
-    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.10, <4.0"
 dependencies = [
     "base58==0.2.5",
     "morphys==1.0",
@@ -61,8 +64,15 @@ where = ["."]
 include = ["dag*"]
 
 [tool.pytest.ini_options]
+addopts = "-v --showlocals --durations 50 --maxfail 10"
 testpaths = ["tests"]
 python_classes = "*TestCase"
+log_cli = "False"
+log_date_format = "%m-%d %H:%M:%S"
+log_format = "%(levelname)8s  %(asctime)s  %(filename)20s  %(message)s"
+markers = [
+    "slow: mark test as slow",
+]
 
 [tool.coverage.run]
 source = ["dag"]

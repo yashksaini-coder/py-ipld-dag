@@ -66,9 +66,14 @@ Ready to contribute? Here's how to set up `dag` for local development.
 
 3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
 
-    $ python -m venv venv dag
+    $ python -m venv venv  # Run from the repo root directory
     $ source venv/bin/activate  # On Windows: venv\Scripts\activate
     $ pip install -e ".[dev]"
+
+   Or using `uv` (recommended for faster installs)::
+
+    $ uv venv
+    $ uv pip install -e ".[dev]"
 
 4. Create a branch for local development::
 
@@ -91,7 +96,7 @@ Ready to contribute? Here's how to set up `dag` for local development.
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
-    $ git push -U origin name-of-your-bugfix-or-feature
+    $ git push -u origin name-of-your-bugfix-or-feature
 
 7. Submit a pull request through the GitHub website.
 
