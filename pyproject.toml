@@ -56,6 +56,36 @@ dev = [
     "wheel>=0.31.0",
 ]
 
+# uv-only: same groups for `uv pip install --group <name> -e .`
+[dependency-groups]
+dev = [
+    { include-group = "docs" },
+    { include-group = "test" },
+    { include-group = "release" },
+    "mypy",
+    "pre-commit>=3.4.0",
+    "ruff>=0.11.10",
+    "towncrier>=24,<25",
+    "tox>=4.10.0",
+    "watchdog>=3.0.0",
+]
+docs = [
+    "Sphinx>=5.0.0",
+]
+test = [
+    "codecov",
+    "coverage>=6.5.0",
+    "pytest",
+    "pytest-cov",
+    "pytest-runner",
+]
+release = [
+    "build>=0.9.0",
+    "bump-my-version>=1.2.0",
+    "twine",
+    "wheel>=0.31.0",
+]
+
 [tool.setuptools]
 include-package-data = true
 
@@ -76,6 +106,40 @@ markers = [
 
 [tool.coverage.run]
 source = ["dag"]
+
+[tool.ruff]
+line-length = 88
+exclude = [".tox", "build", "docs", "__init__.py"]
+
+[tool.ruff.lint]
+select = [
+    "F",   # Pyflakes
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "I",   # isort
+    "D",   # pydocstyle
+]
+ignore = [
+    "D100",  # Missing docstring in public module
+    "D101",  # Missing docstring in public class
+    "D102",  # Missing docstring in public method
+    "D103",  # Missing docstring in public function
+    "D105",  # Missing docstring in magic method
+    "D106",  # Missing docstring in public nested class
+    "D107",  # Missing docstring in __init__
+    "D200",  # One-line docstring should fit on one line
+    "D203",  # 1 blank line required before class docstring
+    "D204",  # 1 blank line required after class docstring
+    "D205",  # 1 blank line required between summary line and description
+    "D212",  # Multi-line docstring summary should start at the first line
+    "D400",  # First line should end with a period
+    "D401",  # First line should be in imperative mood
+    "D412",  # No blank lines allowed between a section header and its content
+    "D415",  # First line should end with a period, question mark, or exclamation
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["dag", "tests"]
 
 [tool.bumpversion]
 current_version = "0.1.0"

@@ -88,14 +88,14 @@ coverage: ## check code coverage quickly with the default Python
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
-docs: ## generate Sphinx HTML documentation, including API docs
+linux-docs: ## generate Sphinx HTML documentation, including API docs
 	rm -fr docs/dag.rst
 	rm -fr docs/modules.rst
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
-docs-ci:
+docs:
 	rm -f docs/dag.rst
 	rm -f docs/modules.rst
 	sphinx-apidoc -o docs/ dag
