@@ -80,7 +80,14 @@ typecheck:
 	pre-commit run mypy-local --all-files
 
 test: ## run tests quickly with the default Python
-	python -m pytest tests
+	@if command -v uv >/dev/null 2>&1; then \
+		# run tests inside uv venv; install dev deps only if runtime deps are missing
+		uv run python -c "import importlib.util,sys; sys.exit(0 if importlib.util.find_spec('base58') else 1)" || uv pip install -e ".[dev]"; \
+		uv run python -m pytest tests; \
+	else \
+		python -c "import importlib.util,sys; sys.exit(0 if importlib.util.find_spec('base58') else 1)" || pip install -e ".[dev]"; \
+		python -m pytest tests; \
+	fi
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source dag -m pytest tests
@@ -117,5 +124,5 @@ dist: clean
 	python -m build
 	ls -l dist
 
-pr: clean fix lint typecheck test
+pr: clean install-dev fix lint typecheck test
 	@echo "PR preparation complete! All checks passed."
