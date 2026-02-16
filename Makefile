@@ -71,7 +71,7 @@ install-dev:
 	fi
 
 lint: ## check style with flake8
-	pre-commit run --all-files
+	pre-commit run --all-files --show-diff-on-failure
 
 fix:
 	python -m ruff check --fix
@@ -96,6 +96,14 @@ linux-docs: ## generate Sphinx HTML documentation, including API docs
 	$(BROWSER) docs/_build/html/index.html
 
 docs:
+	rm -f docs/dag.rst
+	rm -f docs/modules.rst
+	sphinx-apidoc -o docs/ dag
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html SPHINXOPTS="-W"
+
+docs-ci: ## generate docs for CI
+	python newsfragments/validate_files.py
 	rm -f docs/dag.rst
 	rm -f docs/modules.rst
 	sphinx-apidoc -o docs/ dag
