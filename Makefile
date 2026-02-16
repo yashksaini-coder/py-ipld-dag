@@ -57,18 +57,13 @@ clean-test: ## remove Tests artifacts
 	rm -fr .pytest_cache/
 
 install-dev:
-	@if command -v uv >/dev/null 2>&1; then \
-		echo "Using uv..."; \
-		if [ -d ".venv" ] && [ ! -f ".venv/bin/python" ]; then \
-			echo "Warning: Broken .venv detected, recreating..."; \
-			rm -rf .venv; \
-		fi; \
-		uv venv --quiet 2>/dev/null || true; \
-		uv pip install -e ".[dev]"; \
-	else \
-		echo "Using pip..."; \
-		pip install -e ".[dev]"; \
-	fi
+	@echo "Using uv..."
+	@if [ -d ".venv" ] && [ ! -f ".venv/bin/python" ]; then \
+		echo "Warning: Broken .venv detected, recreating..."; \
+		rm -rf .venv; \
+	fi; \
+	uv venv --quiet 2>/dev/null || true; \
+	uv pip install --group dev --quiet;
 
 lint: ## check style with flake8
 	pre-commit run --all-files --show-diff-on-failure
@@ -80,14 +75,7 @@ typecheck:
 	pre-commit run mypy-local --all-files
 
 test: ## run tests quickly with the default Python
-	@if command -v uv >/dev/null 2>&1; then \
-		# run tests inside uv venv; install dev deps only if runtime deps are missing
-		uv run python -c 'import importlib.util,sys; sys.exit(0 if importlib.util.find_spec("base58") else 1)' || uv pip install -e ".[dev]"; \
-		uv run python -m pytest tests; \
-	else \
-		python -c 'import importlib.util,sys; sys.exit(0 if importlib.util.find_spec("base58") else 1)' || pip install -e ".[dev]"; \
-		python -m pytest tests; \
-	fi
+	python -m pytest tests
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source dag -m pytest tests
