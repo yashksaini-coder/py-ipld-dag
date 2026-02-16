@@ -56,15 +56,6 @@ clean-test: ## remove Tests artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache/
 
-install-dev:
-	@echo "Using uv..."
-	@if [ -d ".venv" ] && [ ! -f ".venv/bin/python" ]; then \
-		echo "Warning: Broken .venv detected, recreating..."; \
-		rm -rf .venv; \
-	fi; \
-	uv venv --quiet 2>/dev/null || true; \
-	uv pip install --group dev --quiet;
-
 lint: ## check style with flake8
 	pre-commit run --all-files --show-diff-on-failure
 
@@ -75,7 +66,11 @@ typecheck:
 	pre-commit run mypy-local --all-files
 
 test: ## run tests quickly with the default Python
-	python -m pytest tests
+	@if command -v uv >/dev/null 2>&1; then \
+		uv run python -m pytest tests; \
+	else \
+		python -m pytest tests; \
+	fi
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source dag -m pytest tests
@@ -112,5 +107,5 @@ dist: clean
 	python -m build
 	ls -l dist
 
-pr: clean install-dev fix lint typecheck test
+pr: clean fix lint typecheck test
 	@echo "PR preparation complete! All checks passed."
