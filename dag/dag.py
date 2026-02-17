@@ -89,7 +89,7 @@ class Node:
         return '{class_}("{multihash}", data="{data}", links={links}, size={size})'.format(
             class_=self.__class__.__name__,
             multihash=base58.b58encode(self._multihash),
-            data=self._data[:20] + ".." if len(self._data) > 20 else "",
+            data=self._data[:20] + ".." if len(self._data) > 20 else "",  # pyrefly: ignore
             links=len(self._links),
             size=self._size,
         )

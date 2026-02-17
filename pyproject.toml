@@ -27,9 +27,9 @@ classifiers = [
 ]
 requires-python = ">=3.10, <4.0"
 dependencies = [
-    "base58==0.2.5",
+    "base58>=2.0.0",
     "morphys==1.0",
-    "pymultihash==0.8.2",
+    "py-multihash>=3.0.0",
     "pyrsistent==0.13.0",
 ]
 

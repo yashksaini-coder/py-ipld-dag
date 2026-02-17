@@ -56,21 +56,21 @@ clean-test: ## remove Tests artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache/
 
-lint: ## check style with flake8
-	pre-commit run --all-files --show-diff-on-failure
+
+lint: ## check style with pre-commit
+	@pre-commit run --all-files --show-diff-on-failure || ( \
+		echo "\n\n\n * pre-commit should have fixed the errors above. Running again to make sure everything is good..." \
+		&& pre-commit run --all-files --show-diff-on-failure \
+	)
 
 fix:
 	python -m ruff check --fix
 
-typecheck:
-	pre-commit run mypy-local --all-files
+typecheck: ## run type checking with pyrefly
+	pyrefly check dag/
 
 test: ## run tests quickly with the default Python
-	@if command -v uv >/dev/null 2>&1; then \
-		uv run python -m pytest tests; \
-	else \
-		python -m pytest tests; \
-	fi
+	python -m pytest tests
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source dag -m pytest tests

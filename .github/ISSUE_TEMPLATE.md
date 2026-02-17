@@ -1,6 +1,6 @@
-* MerkelDAG implementation in Python version:
-* Python version:
-* Operating System:
+- MerkelDAG implementation in Python version:
+- Python version:
+- Operating System:
 
 ### Description
 
