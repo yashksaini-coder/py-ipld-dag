@@ -23,7 +23,7 @@ if num_args == 1:
     assert sys.argv[1] in ("is-empty",)
 
 for file in dir.iterdir():
-    if file in ALLOWED_FILES:
+    if file.name in ALLOWED_FILES:
         continue
     elif num_args == 0:
         full_extension = "".join(file.suffixes)
