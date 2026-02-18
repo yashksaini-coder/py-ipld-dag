@@ -22,7 +22,7 @@ help:
 	@echo "install-dev - install development requirements"
 	@echo "fix - fix formatting & linting issues with ruff"
 	@echo "lint - run pre-commit hooks on all files"
-	@echo "typecheck - run mypy type checking"
+	@echo "typecheck - run pyrefly type checking"
 	@echo "test - run tests quickly with the default Python"
 	@echo "coverage - run tests with coverage report"
 	@echo "docs-ci - generate docs for CI"

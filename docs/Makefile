@@ -49,7 +49,12 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 
-html:
+# Ensure api_reference toctree can resolve 'modules'; generate if missing (run from project root)
+modules.rst:
+	cd .. && sphinx-apidoc -o docs dag
+	@touch modules.rst
+
+html: modules.rst
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
