@@ -12,7 +12,8 @@ Contributions are welcome. Every little bit helps, and credit will always be giv
 ## Getting started
 
 1. **Fork** the [repo](https://github.com/ipld/py-ipld-dag) and **clone** your fork.
-2. **Install** for development (from repo root):
+
+1. **Install** for development (from repo root):
 
    ```bash
    python -m venv venv
@@ -27,8 +28,9 @@ Contributions are welcome. Every little bit helps, and credit will always be giv
    uv pip install -e ".[dev]"
    ```
 
-3. **Create a branch:** `git checkout -b name-of-your-change`
-4. **Make changes**, then run **lint and tests:**
+1. **Create a branch:** `git checkout -b name-of-your-change`
+
+1. **Make changes**, then run **lint and tests:**
 
    ```bash
    make lint
@@ -38,7 +40,7 @@ Contributions are welcome. Every little bit helps, and credit will always be giv
 
    Or: `pre-commit run --all-files`
 
-5. **Commit and push**, then open a **pull request.**
+1. **Commit and push**, then open a **pull request.**
 
 ## Pull request guidelines
 

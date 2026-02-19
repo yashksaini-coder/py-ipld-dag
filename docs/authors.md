@@ -1,4 +1,4 @@
 # Authors
 
-- Dhruv Baldawa <@dhruvbaldawa>
-- Stanisław Drozd <@drozdziak1>
+- Dhruv Baldawa \<@dhruvbaldawa>
+- Stanisław Drozd \<@drozdziak1>
