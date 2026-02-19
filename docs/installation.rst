@@ -32,7 +32,7 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/ipld/py-ipld-dag
+    $ git clone https://github.com/ipld/py-ipld-dag.git
 
 Or download the `tarball`_:
 
