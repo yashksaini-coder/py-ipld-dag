@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "dag"
 version = "0.1.0"
 description = "MerkelDAG implementation in Python"
-readme = "README.rst"
+readme = "README.md"
 authors = [
     {name = "Dhruv Baldawa", email = "dhruv@dhruvb.com"},
 ]
@@ -37,6 +37,16 @@ dependencies = [
 Homepage = "https://github.com/ipld/py-ipld-dag"
 
 [project.optional-dependencies]
+docs = [
+    "Sphinx>=5.0.0",
+    "myst-parser>=2.0.0",
+]
+test = [
+    "coverage>=6.5.0",
+    "pytest",
+    "pytest-cov",
+    "pytest-runner",
+]
 dev = [
     "Sphinx>=5.0.0",
     "build>=0.9.0",
@@ -72,6 +82,7 @@ dev = [
 ]
 docs = [
     "Sphinx>=5.0.0",
+    "myst-parser>=2.0.0",
 ]
 test = [
     "coverage>=6.5.0",
@@ -155,6 +166,52 @@ replace = 'version = "{new_version}"'
 filename = "dag/__init__.py"
 search = "__version__ = '{current_version}'"
 replace = "__version__ = '{new_version}'"
+
+[tool.towncrier]
+# See https://github.com/ipld/py-ipld-dag/blob/master/newsfragments/README.md for instructions
+package = "dag"
+directory = "newsfragments"
+filename = "docs/release_notes.rst"
+issue_format = "`#{issue} <https://github.com/ipld/py-ipld-dag/issues/{issue}>`__"
+title_format = "py-ipld-dag v{version} ({project_date})"
+underlines = ["-", "~", "^"]
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Breaking Changes"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bug Fixes"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "docs"
+name = "Documentation"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "internal"
+name = "Internal"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Miscellaneous"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "performance"
+name = "Performance"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Removals"
+showcontent = true
 
 [tool.mypy]
 python_version = "3.10"
