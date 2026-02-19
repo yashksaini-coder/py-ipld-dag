@@ -9,7 +9,11 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+.venv/
+venv/
+env.bak/
 build/
+.build/
 develop-eggs/
 dist/
 downloads/
@@ -20,9 +24,13 @@ lib64/
 parts/
 sdist/
 var/
+bin/
+wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
+pip-wheel-metadata
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -40,6 +48,7 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+.pytest_cache/
 nosetests.xml
 coverage.xml
 *,cover
@@ -54,6 +63,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+docs/modules.rst
 
 # PyBuilder
 target/
@@ -61,6 +71,25 @@ target/
 # pyenv python configuration file
 .python-version
 
-#lockfiles
+# mypy
+.mypy_cache/
+
+# ruff
+.ruff_cache/
+
+# Lockfiles (library: do not commit so consumers resolve their own deps)
 uv.lock
 poetry.lock
+
+# macOS
+.DS_Store
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment / secrets
+.env
+.env.*
