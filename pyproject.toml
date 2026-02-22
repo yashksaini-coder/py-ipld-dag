@@ -1,0 +1,195 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dag"
+version = "0.1.0"
+description = "MerkleDAG implementation in Python"
+readme = "README.md"
+authors = [
+    {name = "Dhruv Baldawa", email = "dhruv@dhruvb.com"},
+]
+license = {text = "MIT license"}
+keywords = ["dag"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+requires-python = ">=3.10, <4.0"
+dependencies = [
+    "base58>=2.0.0",
+    "morphys==1.0",
+    "py-multihash>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ipld/py-ipld-dag"
+
+[dependency-groups]
+dev = [
+    { include-group = "docs" },
+    { include-group = "test" },
+    { include-group = "release" },
+    "mypy",
+    "pre-commit>=3.4.0",
+    "pyrefly",
+    "ruff>=0.11.10",
+    "towncrier>=24,<25",
+    "tox>=4.10.0",
+    "watchdog>=3.0.0",
+]
+docs = [
+    "Sphinx>=5.0.0",
+    "myst-parser>=2.0.0",
+]
+test = [
+    "pytest",
+    "pytest-runner",
+]
+release = [
+    "build>=0.9.0",
+    "bump-my-version>=1.2.0",
+    "twine",
+    "wheel>=0.31.0",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dag*"]
+
+[tool.pytest.ini_options]
+addopts = "-v --showlocals --durations 50 --maxfail 10"
+testpaths = ["tests"]
+python_classes = "*TestCase"
+log_cli = "False"
+log_date_format = "%m-%d %H:%M:%S"
+log_format = "%(levelname)8s  %(asctime)s  %(filename)20s  %(message)s"
+markers = [
+    "slow: mark test as slow",
+]
+
+[tool.ruff]
+line-length = 88
+exclude = [".tox", "build", "docs", "__init__.py"]
+
+[tool.ruff.lint]
+select = [
+    "F",   # Pyflakes
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "I",   # isort
+    "D",   # pydocstyle
+]
+ignore = [
+    "D100",  # Missing docstring in public module
+    "D101",  # Missing docstring in public class
+    "D102",  # Missing docstring in public method
+    "D103",  # Missing docstring in public function
+    "D105",  # Missing docstring in magic method
+    "D106",  # Missing docstring in public nested class
+    "D107",  # Missing docstring in __init__
+    "D200",  # One-line docstring should fit on one line
+    "D203",  # 1 blank line required before class docstring
+    "D204",  # 1 blank line required after class docstring
+    "D205",  # 1 blank line required between summary line and description
+    "D212",  # Multi-line docstring summary should start at the first line
+    "D400",  # First line should end with a period
+    "D401",  # First line should be in imperative mood
+    "D412",  # No blank lines allowed between a section header and its content
+    "D415",  # First line should end with a period, question mark, or exclamation
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["dag", "tests"]
+
+[tool.bumpversion]
+current_version = "0.1.0"
+commit = true
+tag = true
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "dag/__init__.py"
+search = "__version__ = '{current_version}'"
+replace = "__version__ = '{new_version}'"
+
+[tool.towncrier]
+# Read https://github.com/ipld/py-ipld-dag/blob/master/newsfragments/README.md for instructions
+directory = "newsfragments"
+filename = "docs/release_notes.rst"
+issue_format = "`#{issue} <https://github.com/ipld/py-ipld-dag/issues/{issue}>`__"
+package = "dag"
+title_format = "py-ipld-dag v{version} ({project_date})"
+underlines = ["-", "~", "^"]
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Breaking Changes"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bugfixes"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "docs"
+name = "Improved Documentation"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "internal"
+name = "Internal Changes - for py-ipld-dag Contributors"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Miscellaneous Changes"
+showcontent = false
+[[tool.towncrier.type]]
+directory = "performance"
+name = "Performance Improvements"
+showcontent = true
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Removals"
+showcontent = true
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = false
+disallow_any_generics = false
+disallow_incomplete_defs = false
+disallow_subclassing_any = false
+disallow_untyped_calls = false
+disallow_untyped_decorators = false
+disallow_untyped_defs = false
+ignore_missing_imports = true
+incremental = false
+strict_equality = false
+strict_optional = false
+warn_redundant_casts = false
+warn_return_any = false
+warn_unused_configs = true
+warn_unused_ignores = false

@@ -1,4 +1,5 @@
-.. include:: ../README.rst
+MerkelDAG implementation in Python
+==================================
 
 Table of contents
 =================
@@ -11,7 +12,8 @@ Table of contents
    api_reference
    contributing
    authors
-   history
+   release_notes
+   readthedocs
 
 Indices and tables
 ==================

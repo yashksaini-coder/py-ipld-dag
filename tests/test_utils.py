@@ -12,14 +12,13 @@ def node():
     """
     A Node object fixture
     """
-    print('dag: ', dag)
+    print("dag: ", dag)
     node = dag.Node.create(TEST_NODE_DATA)
 
     return node
 
 
 def test_node_to_link(node):
-
     link = utils.node_to_link(node)
 
     # Sanity test
@@ -27,5 +26,5 @@ def test_node_to_link(node):
 
     # Ensure correct member transfer
     assert link._size == node.size
-    assert link._name == ''
+    assert link._name == ""
     assert link._multihash == node.multihash

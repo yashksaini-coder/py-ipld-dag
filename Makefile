@@ -1,5 +1,5 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
-.DEFAULT_GOAL := help
+.PHONY: clean-pyc clean-build docs clean help install-dev pr
+
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
 try:
@@ -11,23 +11,32 @@ webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
 endef
 export BROWSER_PYSCRIPT
 
-define PRINT_HELP_PYSCRIPT
-import re, sys
-
-for line in sys.stdin:
-	match = re.match(r'^([a-zA-Z_-]+):.*?## (.*)$$', line)
-	if match:
-		target, help = match.groups()
-		print("%-20s %s" % (target, help))
-endef
-export PRINT_HELP_PYSCRIPT
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
 help:
-	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+	@echo "Available commands:"
+	@echo "clean-build - remove build artifacts"
+	@echo "clean-pyc - remove Python file artifacts"
+	@echo "clean-test - remove test artifacts"
+	@echo "clean - run clean-build, clean-pyc, and clean-test"
+	@echo "install-dev - install development requirements"
+	@echo "fix - fix formatting & linting issues with ruff"
+	@echo "lint - run pre-commit hooks on all files"
+	@echo "linux-docs - generate Sphinx HTML documentation, including API docs"
+	@echo "typecheck - run pyrefly type checking"
+	@echo "test - run tests quickly with the default Python"
+	@echo "docs-ci - generate docs for CI"
+	@echo "docs - generate docs and open in browser"
+	@echo "dist - build package and show contents"
+	@echo "pr - run clean, lint, and test (everything needed before creating a PR)"
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
+clean: clean-build clean-pyc clean-test ## remove all build, test, and Python artifacts
+
+install-dev: ## install package in editable mode with dev deps and pre-commit (uses uv)
+	uv pip install --upgrade pip
+	uv pip install --group dev -e .
+	pre-commit install
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -42,47 +51,53 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*~' -exec rm -fr {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-clean-test: ## remove test and coverage artifacts
-	rm -fr .coverage
-	rm -fr htmlcov/
+clean-test: ## remove test artifacts
+	rm -fr .tox/
+	rm -fr .mypy_cache
+	rm -fr .ruff_cache
+	rm -fr .pytest_cache/
 
-lint: ## check style with flake8
-	flake8 dag tests
+
+lint: ## check style with pre-commit
+	@pre-commit run --all-files --show-diff-on-failure || ( \
+		echo "\n\n\n * pre-commit should have fixed the errors above. Running again to make sure everything is good..." \
+		&& pre-commit run --all-files --show-diff-on-failure \
+	)
+
+fix:
+	python -m ruff check --fix
+
+typecheck: ## run type checking with pyrefly
+	pyrefly check dag/
 
 test: ## run tests quickly with the default Python
-	py.test --cov=dag/ --cov-report=html --cov-report=term-missing --cov-branch
+	python -m pytest tests
 
-
-test-all: ## run tests on every Python version with tox
-	tox
-
-coverage: ## check code coverage quickly with the default Python
-	coverage run --source dag -m pytest
-	coverage report -m
-	coverage html
-	$(BROWSER) htmlcov/index.html
-
-docs: ## generate Sphinx HTML documentation, including API docs
+linux-docs: ## generate Sphinx HTML documentation, including API docs
 	rm -fr docs/dag.rst
 	rm -fr docs/modules.rst
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst;*.py' -c '$(MAKE) -C docs html' -R -D .
+docs:
+	rm -f docs/dag.rst
+	rm -f docs/modules.rst
+	sphinx-apidoc -o docs/ dag
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html SPHINXOPTS="-W"
 
-verify_description:
-	python setup.py --long-description | rst2html.py > /dev/null
+docs-ci: ## generate docs for CI
+	python newsfragments/validate_files.py
+	rm -f docs/dag.rst
+	rm -f docs/modules.rst
+	sphinx-apidoc -o docs/ dag
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html SPHINXOPTS="-W"
 
-release: clean verify_description ## package and upload a release
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
-
-dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+dist: clean
+	python -m build
 	ls -l dist
 
-install: clean ## install the package to the active Python's site-packages
-	pip install .
+pr: clean fix lint typecheck test
+	@echo "PR preparation complete! All checks passed."

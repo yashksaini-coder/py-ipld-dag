@@ -1,12 +1,8 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """Tests for `dag` package."""
 
 import pytest
-
-
-from dag import dag
 
 
 @pytest.fixture

@@ -4,48 +4,46 @@
 Installation
 ============
 
+Follow the steps below to install ``py-ipld-dag`` on your platform.
 
-Stable release
---------------
+**Linux / macOS / Windows**
 
-To install MerkelDAG implementation in Python, run this command in your terminal:
+1. Create a Python virtual environment:
 
-.. code-block:: console
+   .. code-block:: sh
 
-    $ pip install dag
+       python -m venv venv
 
-This is the preferred method to install MerkelDAG implementation in Python, as it will always install the most recent stable release.
+2. Activate the virtual environment:
 
-If you don't have `pip`_ installed, this `Python installation guide`_ can guide
-you through the process.
+   - **Linux / macOS**
 
-.. _pip: https://pip.pypa.io
-.. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
+     .. code-block:: sh
 
+         source venv/bin/activate
 
-From sources
-------------
+   - **Windows (cmd)**
 
-The sources for MerkelDAG implementation in Python can be downloaded from the `Github repo`_.
+     .. code-block:: batch
 
-You can either clone the public repository:
+         venv\Scripts\activate.bat
 
-.. code-block:: console
+   - **Windows (PowerShell)**
 
-    $ git clone git://github.com/ipld/py-ipld-dag
+     .. code-block:: powershell
 
-Or download the `tarball`_:
+         venv\Scripts\Activate.ps1
 
-.. code-block:: console
+3. Install ``py-ipld-dag``:
 
-    $ curl  -OL https://github.com/ipld/py-ipld-dag/tarball/master
+   .. code-block:: sh
 
-Once you have a copy of the source, you can install it with:
+       python -m pip install py-ipld-dag
 
-.. code-block:: console
+Development install (from source)
+---------------------------------
 
-    $ python setup.py install
-
-
-.. _Github repo: https://github.com/ipld/py-ipld-dag
-.. _tarball: https://github.com/ipld/py-ipld-dag/tarball/master
+For a development setup (run tests, build docs, contribute), see the
+:doc:`contributing` guide. Use ``uv pip install --group dev -e .`` (or
+``pip install --group dev -e .`` with pip >= 25.1) after cloning the
+`repository <https://github.com/ipld/py-ipld-dag>`_.
