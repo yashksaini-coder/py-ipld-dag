@@ -42,16 +42,7 @@ Setup Steps
 
 Install the development dependencies using a virtual environment:
 
-**Option 1: Using the setup script (recommended):**
-
-.. code:: sh
-
-    cd py-ipld-dag
-    python3 -m venv ./venv
-    . venv/bin/activate
-    ./scripts/setup_dev.sh
-
-**Option 2: Using uv (recommended, same as CI):**
+**Option 1: Using uv (recommended, same as CI):**
 
 First, install ``uv`` if you haven't already:
 
@@ -76,7 +67,7 @@ Then set up the development environment:
     uv pip install --group dev -e .
     pre-commit install
 
-**Option 3: Manual setup with pip:**
+**Option 2: Manual setup with pip:**
 
 .. code:: sh
 
@@ -124,16 +115,7 @@ Setup Steps
 
 Install the development dependencies using a virtual environment:
 
-**Option 1: Using the setup script (recommended):**
-
-.. code:: sh
-
-    cd py-ipld-dag
-    python3 -m venv ./venv
-    . venv/bin/activate
-    ./scripts/setup_dev.sh
-
-**Option 2: Using uv (recommended, same as CI):**
+**Option 1: Using uv (recommended, same as CI):**
 
 First, install ``uv`` if you haven't already:
 
@@ -170,7 +152,7 @@ On macOS, help the build command find and link against the ``gmp`` library:
 
     CFLAGS="`pkg-config --cflags gmp`" LDFLAGS="`pkg-config --libs gmp`" uv pip install --group dev -e .
 
-**Option 3: Manual setup with pip:**
+**Option 2: Manual setup with pip:**
 
 .. code:: sh
 
@@ -426,19 +408,19 @@ introduces the feature or bugfix.
 Releasing
 ~~~~~~~~~
 
-Releases are typically done from the ``main`` branch, except when releasing a beta (in
-which case the beta is released from ``main``, and the previous stable branch is
-released from said branch).
+Releases are typically done from the ``main`` branch (this repo uses ``master``).
+This project does not define ``make notes``, ``make release``, or ``make package-test``;
+use the tools directly as below.
 
 Final test before each release
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Before releasing a new version, build and test the package that will be released:
+Before releasing a new version, build and test the package:
 
 .. code:: sh
 
-    git checkout main && git pull
-    make package-test
+    git checkout master && git pull
+    python -m build && pip install dist/*.whl  # or install from dist/ and test
 
 This will build the package and install it in a temporary virtual environment. Follow
 the instructions to activate the venv and test whatever you think is important.
@@ -452,47 +434,43 @@ You can also preview the release notes:
 Build the release notes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Before bumping the version number, build the release notes. You must include the part of
-the version to bump (see below), which changes how the version number will show in the
-release notes.
+Before bumping the version number, build the release notes (consumes newsfragments and
+updates ``docs/release_notes.rst``):
 
 .. code:: sh
 
-    make notes bump=$$VERSION_PART_TO_BUMP$$
+    towncrier build --version VERSION
 
-If there are any errors, be sure to re-run make notes until it works.
+Use the version you are about to release (e.g. ``0.1.1``). Check the updated
+``docs/release_notes.rst``, then commit it.
 
-Push the release to github & pypi
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Bump version and tag
+^^^^^^^^^^^^^^^^^^^^
 
-After confirming that the release package looks okay, release a new version:
+Bump the version in ``pyproject.toml`` and ``dag/__init__.py``, commit, and tag:
 
 .. code:: sh
 
-    make release bump=$$VERSION_PART_TO_BUMP$$
+    bump-my-version bump PART
 
-This command will:
+where ``PART`` is ``patch``, ``minor``, or ``major``. This creates a commit and a tag
+(e.g. ``v0.1.1``). Then build the package, push the commit and tag, and upload to PyPI:
 
-- Bump the version number as specified in ``.pyproject.toml`` and ``setup.py``.
-- Create a git commit and tag for the new version.
-- Build the package.
-- Push the commit and tag to github.
-- Push the new package files to pypi.
+.. code:: sh
+
+    python -m build
+    git push && git push --tags
+    twine upload dist/*
 
 Which version part to bump
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-``$$VERSION_PART_TO_BUMP$$`` must be one of: ``major``, ``minor``, ``patch``, ``stage``,
-or ``devnum``.
-
-The version format for this repo is ``{major}.{minor}.{patch}`` for stable, and
-``{major}.{minor}.{patch}-{stage}.{devnum}`` for unstable (``stage`` can be alpha or
-beta).
-
-If you are in a beta version, ``make release bump=stage`` will switch to a stable.
+``PART`` must be one of: ``major``, ``minor``, or ``patch`` (this project uses
+``{major}.{minor}.{patch}`` only).
 
 To issue an unstable version when the current version is stable, specify the new version
-explicitly, like ``make release bump="--new-version 4.0.0-alpha.1"``
+explicitly, e.g. ``bump-my-version bump --new-version 0.2.0-alpha.1``.
 
-You can see what the result of bumping any particular version part would be with
-``bump-my-version show-bump``
+To preview the next version without changing any files, use
+``bump-my-version show -i PART new_version`` where ``PART`` is ``patch``, ``minor``, or
+``major``. Example: ``bump-my-version show -i patch new_version`` prints ``0.1.1``.

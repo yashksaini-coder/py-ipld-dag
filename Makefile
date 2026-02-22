@@ -1,4 +1,4 @@
-.PHONY: clean-pyc clean-build docs clean help pr
+.PHONY: clean-pyc clean-build docs clean help install-dev pr
 
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -22,18 +22,21 @@ help:
 	@echo "install-dev - install development requirements"
 	@echo "fix - fix formatting & linting issues with ruff"
 	@echo "lint - run pre-commit hooks on all files"
+	@echo "linux-docs - generate Sphinx HTML documentation, including API docs"
 	@echo "typecheck - run pyrefly type checking"
 	@echo "test - run tests quickly with the default Python"
-	@echo "coverage - run tests with coverage report"
 	@echo "docs-ci - generate docs for CI"
 	@echo "docs - generate docs and open in browser"
-	@echo "servedocs - serve docs with live reload"
 	@echo "dist - build package and show contents"
 	@echo "pr - run clean, lint, and test (everything needed before creating a PR)"
 
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test ## remove all build, test, and Python artifacts
 
+install-dev: ## install package in editable mode with dev deps and pre-commit (uses uv)
+	uv pip install --upgrade pip
+	uv pip install --group dev -e .
+	pre-commit install
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -48,12 +51,10 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*~' -exec rm -fr {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-clean-test: ## remove Tests artifacts
+clean-test: ## remove test artifacts
 	rm -fr .tox/
 	rm -fr .mypy_cache
 	rm -fr .ruff_cache
-	rm -f .coverage
-	rm -fr htmlcov/
 	rm -fr .pytest_cache/
 
 
@@ -71,12 +72,6 @@ typecheck: ## run type checking with pyrefly
 
 test: ## run tests quickly with the default Python
 	python -m pytest tests
-
-coverage: ## check code coverage quickly with the default Python
-	coverage run --source dag -m pytest tests
-	coverage report -m
-	coverage html
-	$(BROWSER) htmlcov/index.html
 
 linux-docs: ## generate Sphinx HTML documentation, including API docs
 	rm -fr docs/dag.rst
@@ -99,9 +94,6 @@ docs-ci: ## generate docs for CI
 	sphinx-apidoc -o docs/ dag
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html SPHINXOPTS="-W"
-
-servedocs: docs
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 dist: clean
 	python -m build

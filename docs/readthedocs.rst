@@ -6,7 +6,7 @@ The project is configured for ReadTheDocs via ``.readthedocs.yaml`` in the repos
 - **Build:** Ubuntu 22.04, Python 3.10
 - **Install:** ``pip install -e ".[docs,test]"`` (Sphinx, myst-parser, test deps)
 - **Sphinx:** ``docs/conf.py``, ``fail_on_warning: true``
-- **Formats:** HTML, epub, pdf (htmlzip)
+- **Formats:** HTML, epub, htmlzip
 
 To connect and build on ReadTheDocs:
 

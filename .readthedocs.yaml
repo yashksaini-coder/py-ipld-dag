@@ -9,8 +9,7 @@ build:
   jobs:
     post_install:
       - python -m pip install --upgrade pip
-      - python -m pip install -e ".[docs,test]"
-      # Generate api_reference toctree sources (modules.rst, dag.rst) before Sphinx runs
+      - python -m pip install --group docs --group test -e .
       - sphinx-apidoc -o docs dag
 
 sphinx:

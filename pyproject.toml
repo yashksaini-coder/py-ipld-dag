@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dag"
 version = "0.1.0"
-description = "MerkelDAG implementation in Python"
+description = "MerkleDAG implementation in Python"
 readme = "README.md"
 authors = [
     {name = "Dhruv Baldawa", email = "dhruv@dhruvb.com"},
@@ -30,43 +30,11 @@ dependencies = [
     "base58>=2.0.0",
     "morphys==1.0",
     "py-multihash>=3.0.0",
-    "pyrsistent==0.13.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/ipld/py-ipld-dag"
 
-[project.optional-dependencies]
-docs = [
-    "Sphinx>=5.0.0",
-    "myst-parser>=2.0.0",
-]
-test = [
-    "coverage>=6.5.0",
-    "pytest",
-    "pytest-cov",
-    "pytest-runner",
-]
-dev = [
-    "Sphinx>=5.0.0",
-    "build>=0.9.0",
-    "bump-my-version>=1.2.0",
-    "coverage>=6.5.0",
-    "mypy",
-    "pre-commit",
-    "pyrefly",
-    "pytest",
-    "pytest-cov",
-    "pytest-runner",
-    "ruff",
-    "towncrier>=24,<25",
-    "tox>=4.10.0",
-    "twine",
-    "watchdog>=3.0.0",
-    "wheel>=0.31.0",
-]
-
-# uv-only: same groups for `uv pip install --group <name> -e .`
 [dependency-groups]
 dev = [
     { include-group = "docs" },
@@ -85,9 +53,7 @@ docs = [
     "myst-parser>=2.0.0",
 ]
 test = [
-    "coverage>=6.5.0",
     "pytest",
-    "pytest-cov",
     "pytest-runner",
 ]
 release = [
@@ -114,9 +80,6 @@ log_format = "%(levelname)8s  %(asctime)s  %(filename)20s  %(message)s"
 markers = [
     "slow: mark test as slow",
 ]
-
-[tool.coverage.run]
-source = ["dag"]
 
 [tool.ruff]
 line-length = 88
@@ -168,11 +131,11 @@ search = "__version__ = '{current_version}'"
 replace = "__version__ = '{new_version}'"
 
 [tool.towncrier]
-# See https://github.com/ipld/py-ipld-dag/blob/master/newsfragments/README.md for instructions
-package = "dag"
+# Read https://github.com/ipld/py-ipld-dag/blob/master/newsfragments/README.md for instructions
 directory = "newsfragments"
 filename = "docs/release_notes.rst"
 issue_format = "`#{issue} <https://github.com/ipld/py-ipld-dag/issues/{issue}>`__"
+package = "dag"
 title_format = "py-ipld-dag v{version} ({project_date})"
 underlines = ["-", "~", "^"]
 
@@ -182,7 +145,7 @@ name = "Breaking Changes"
 showcontent = true
 [[tool.towncrier.type]]
 directory = "bugfix"
-name = "Bug Fixes"
+name = "Bugfixes"
 showcontent = true
 [[tool.towncrier.type]]
 directory = "deprecation"
@@ -190,7 +153,7 @@ name = "Deprecations"
 showcontent = true
 [[tool.towncrier.type]]
 directory = "docs"
-name = "Documentation"
+name = "Improved Documentation"
 showcontent = true
 [[tool.towncrier.type]]
 directory = "feature"
@@ -198,15 +161,15 @@ name = "Features"
 showcontent = true
 [[tool.towncrier.type]]
 directory = "internal"
-name = "Internal"
+name = "Internal Changes - for py-ipld-dag Contributors"
 showcontent = true
 [[tool.towncrier.type]]
 directory = "misc"
-name = "Miscellaneous"
-showcontent = true
+name = "Miscellaneous Changes"
+showcontent = false
 [[tool.towncrier.type]]
 directory = "performance"
-name = "Performance"
+name = "Performance Improvements"
 showcontent = true
 [[tool.towncrier.type]]
 directory = "removal"
