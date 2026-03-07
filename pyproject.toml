@@ -27,9 +27,12 @@ classifiers = [
 ]
 requires-python = ">=3.10, <4.0"
 dependencies = [
-    "base58>=2.0.0",
-    "morphys==1.0",
+    "cbor2>=5.4.0",
+    "py-cid>=0.4.0",
     "py-multihash>=3.0.0",
+    "base58>=2.0.0",
+    "py-multibase>=2.0.0",
+    "py-multicodec>=1.0.0",
 ]
 
 [project.urls]
@@ -68,7 +71,7 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["dag*"]
+include = ["dag*", "dag.codecs*"]
 
 [tool.pytest.ini_options]
 addopts = "-v --showlocals --durations 50 --maxfail 10"

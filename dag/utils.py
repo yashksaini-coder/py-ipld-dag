@@ -1,7 +1,99 @@
-def node_to_link(node):
+"""Utility functions for py-ipld-dag.
+
+Provides helpers for working with IPLD blocks, CIDs, and codecs.
+"""
+
+from __future__ import annotations
+
+from typing import Any
+
+import multihash as _multihash
+from cid import CIDv0, CIDv1, from_bytes as cid_from_bytes, make_cid
+
+from .ipld_model import CID, is_cid
+
+
+def create_cid(
+    data: bytes,
+    codec: str = "dag-cbor",
+    hasher: str = "sha2-256",
+    version: int = 1,
+) -> CID:
+    """Create a CID from raw encoded bytes.
+
+    Parameters
+    ----------
+    data:
+        The encoded bytes to hash.
+    codec:
+        The codec name (e.g. ``"dag-cbor"``).
+    hasher:
+        The multihash algorithm (e.g. ``"sha2-256"``).
+    version:
+        CID version (``0`` or ``1``).
+
+    Returns
+    -------
+    CID
+        A new CID object.
+    """
+    mh = _multihash.digest(data, hasher)
+    return make_cid(version, codec, mh.encode())
+
+
+def cid_to_bytes(cid_obj: CID) -> bytes:
+    """Convert a CID object to its binary representation."""
+    return cid_obj.buffer
+
+
+def bytes_to_cid(raw: bytes) -> CID:
+    """Parse a CID from its binary representation."""
+    return cid_from_bytes(raw)
+
+
+def cid_to_string(cid_obj: CID) -> str:
+    """Convert a CID to its string representation."""
+    return str(cid_obj)
+
+
+def string_to_cid(s: str) -> CID:
+    """Parse a CID from a string."""
+    return make_cid(s)
+
+
+def node_to_link(node: Any) -> Any:
+    """Convert a legacy Node to a legacy Link.
+
+    .. deprecated::
+        This function is retained for backward compatibility only.
+        Use the codec/block API instead.
+    """
     from .dag import Link, Node
 
     if not isinstance(node, Node):
         raise TypeError("node should be an instance of type Node")
 
     return Link("", node.size, node.multihash)
+
+
+def collect_links(value: Any) -> list[tuple[str, CID]]:
+    """Collect all CID links from an IPLD data-model value.
+
+    Returns a list of ``(path, cid)`` tuples.
+    """
+    results: list[tuple[str, CID]] = []
+    _walk(value, "", results)
+    return results
+
+
+def _walk(node: Any, prefix: str, out: list[tuple[str, CID]]) -> None:
+    if is_cid(node):
+        out.append((prefix, node))
+    elif isinstance(node, dict):
+        for k, v in node.items():
+            child = f"{prefix}/{k}" if prefix else k
+            _walk(v, child, out)
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            child = f"{prefix}/{i}" if prefix else str(i)
+            _walk(v, child, out)
