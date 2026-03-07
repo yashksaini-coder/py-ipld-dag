@@ -5,9 +5,6 @@ Ensures that CIDs created by one codec can be embedded and
 recovered by another codec correctly.
 """
 
-import pytest
-from cid import make_cid
-import multihash
 
 from dag import Block, is_cid
 from dag.codecs import dag_cbor, dag_json, dag_pb, raw

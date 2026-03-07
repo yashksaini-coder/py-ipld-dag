@@ -7,16 +7,16 @@ https://github.com/multiformats/multicodec/blob/master/table.csv
 from __future__ import annotations
 
 RAW_CODE = 0x55
-"""Raw binary codec – identity, no transformation."""
+"""Raw binary codec - identity, no transformation."""
 
 DAG_PB_CODE = 0x70
-"""DAG-PB (Protobuf) codec – used by legacy IPFS UnixFS."""
+"""DAG-PB (Protobuf) codec - used by legacy IPFS UnixFS."""
 
 DAG_CBOR_CODE = 0x71
-"""DAG-CBOR codec – deterministic CBOR with IPLD links."""
+"""DAG-CBOR codec - deterministic CBOR with IPLD links."""
 
 DAG_JSON_CODE = 0x0129
-"""DAG-JSON codec – deterministic JSON with IPLD links."""
+"""DAG-JSON codec - deterministic JSON with IPLD links."""
 
 RAW_NAME = "raw"
 DAG_PB_NAME = "dag-pb"

@@ -4,10 +4,8 @@
 import pytest
 
 from dag.codec import (
-    BlockCodec,
     get_codec,
     lookup_codec,
-    register_codec,
     registered_codecs,
 )
 

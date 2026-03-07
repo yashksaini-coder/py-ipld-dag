@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Tests for the IPLD Data Model module."""
 
+import multihash
 import pytest
 from cid import make_cid
-import multihash
 
-from dag.ipld_model import Kind, kind_of, is_cid, is_ipld_value
+from dag.ipld_model import Kind, is_cid, is_ipld_value, kind_of
 
 
 class KindOfTestCase:

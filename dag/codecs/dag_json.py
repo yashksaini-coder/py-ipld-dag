@@ -1,4 +1,4 @@
-"""DAG-JSON codec – deterministic JSON with IPLD CID links.
+"""DAG-JSON codec - deterministic JSON with IPLD CID links.
 
 Multicodec code: ``0x0129``
 
@@ -26,7 +26,7 @@ import base64
 import json
 from typing import Any
 
-from cid import CIDv0, CIDv1, from_bytes as cid_from_bytes, make_cid
+from cid import make_cid
 
 from ..codec import BlockCodec, register_codec
 from ..ipld_model import CID, IPLDNode, is_cid

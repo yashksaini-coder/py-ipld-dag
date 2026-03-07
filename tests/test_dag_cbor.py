@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Comprehensive tests for the DAG-CBOR codec."""
 
-import pytest
-
-from cid import make_cid
 import multihash
+import pytest
+from cid import make_cid
 
 from dag import Block, is_cid
-from dag.codecs.dag_cbor import DagCborCodec, codec, encode, decode
+from dag.codecs.dag_cbor import DagCborCodec, codec, decode, encode
 
 
 class DagCborBasicTestCase:

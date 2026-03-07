@@ -5,24 +5,23 @@ implement, following the same pattern as the JS ``@ipld/interface``
 (``BlockEncoder`` / ``BlockDecoder`` / ``BlockCodec``).
 
 A **codec** is identified by:
-- ``name`` – a human-readable string (e.g. ``"dag-cbor"``)
-- ``code`` – the multicodec code (e.g. ``0x71``)
+- ``name`` - a human-readable string (e.g. ``"dag-cbor"``)
+- ``code`` - the multicodec code (e.g. ``0x71``)
 
 And provides two operations:
-- ``encode(node)`` → ``bytes``   – serialize an IPLD node
-- ``decode(data)`` → ``node``    – deserialize bytes into an IPLD node
+- ``encode(node)`` → ``bytes``   - serialize an IPLD node
+- ``decode(data)`` → ``node``    - deserialize bytes into an IPLD node
 """
 
 from __future__ import annotations
 
 import abc
-from typing import Any
 
 from .ipld_model import IPLDNode
 
 
 class BlockEncoder(abc.ABC):
-    """Abstract encoder – turns an IPLD node into bytes."""
+    """Abstract encoder - turns an IPLD node into bytes."""
 
     @property
     @abc.abstractmethod
@@ -40,7 +39,7 @@ class BlockEncoder(abc.ABC):
 
 
 class BlockDecoder(abc.ABC):
-    """Abstract decoder – turns bytes into an IPLD node."""
+    """Abstract decoder - turns bytes into an IPLD node."""
 
     @property
     @abc.abstractmethod

@@ -8,7 +8,8 @@ from __future__ import annotations
 from typing import Any
 
 import multihash as _multihash
-from cid import CIDv0, CIDv1, from_bytes as cid_from_bytes, make_cid
+from cid import from_bytes as cid_from_bytes
+from cid import make_cid
 
 from .ipld_model import CID, is_cid
 

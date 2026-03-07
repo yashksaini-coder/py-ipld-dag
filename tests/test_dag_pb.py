@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 """Comprehensive tests for the DAG-PB codec."""
 
+import multihash
 import pytest
 from cid import make_cid
-import multihash
 
 from dag import Block, is_cid
 from dag.codecs.dag_pb import (
-    DagPbCodec,
     PBLink,
     PBNode,
     codec,
-    encode,
     decode,
+    encode,
 )
 
 

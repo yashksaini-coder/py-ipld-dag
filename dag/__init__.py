@@ -1,4 +1,4 @@
-"""py-ipld-dag – IPLD DAG implementation for Python.
+"""py-ipld-dag - IPLD DAG implementation for Python.
 
 A lean, modern implementation of the IPLD (InterPlanetary Linked Data)
 data model and codecs for Python, aligned with the JS multiformats
@@ -6,14 +6,14 @@ ecosystem.
 
 Provides:
 
-- **IPLD Data Model** – kinds, type helpers, CID integration
-- **Block API** – ``Block.encode()`` / ``Block.decode()`` / ``Block.create()``
-- **Codec interface** – ``BlockCodec`` base class + codec registry
+- **IPLD Data Model** - kinds, type helpers, CID integration
+- **Block API** - ``Block.encode()`` / ``Block.decode()`` / ``Block.create()``
+- **Codec interface** - ``BlockCodec`` base class + codec registry
 - **Built-in codecs**:
-  - ``dag-cbor`` (``0x71``) – deterministic CBOR with CID links
-  - ``dag-json`` (``0x0129``) – deterministic JSON with CID links
-  - ``dag-pb`` (``0x70``) – Protobuf-based Merkle DAG (legacy IPFS)
-  - ``raw`` (``0x55``) – identity codec for raw bytes
+  - ``dag-cbor`` (``0x71``) - deterministic CBOR with CID links
+  - ``dag-json`` (``0x0129``) - deterministic JSON with CID links
+  - ``dag-pb`` (``0x70``) - Protobuf-based Merkle DAG (legacy IPFS)
+  - ``raw`` (``0x55``) - identity codec for raw bytes
 
 Usage::
 
@@ -34,6 +34,7 @@ __author__ = """Dhruv Baldawa"""
 __email__ = "dhruv@dhruvb.com"
 __version__ = "0.1.0"
 
+from . import codecs as codecs  # triggers auto-registration
 from .block import Block
 from .codec import (
     BlockCodec,
@@ -56,23 +57,8 @@ from .multicodec_codes import (
     RAW_NAME,
 )
 
-from . import codecs
-
 __all__ = [
-    "Block",
-    "BlockCodec",
-    "BlockDecoder",
-    "BlockEncoder",
-    "get_codec",
-    "lookup_codec",
-    "register_codec",
-    "registered_codecs",
     "CID",
-    "IPLDNode",
-    "Kind",
-    "is_cid",
-    "is_ipld_value",
-    "kind_of",
     "DAG_CBOR_CODE",
     "DAG_CBOR_NAME",
     "DAG_JSON_CODE",
@@ -81,4 +67,17 @@ __all__ = [
     "DAG_PB_NAME",
     "RAW_CODE",
     "RAW_NAME",
+    "Block",
+    "BlockCodec",
+    "BlockDecoder",
+    "BlockEncoder",
+    "IPLDNode",
+    "Kind",
+    "get_codec",
+    "is_cid",
+    "is_ipld_value",
+    "kind_of",
+    "lookup_codec",
+    "register_codec",
+    "registered_codecs",
 ]

@@ -3,12 +3,12 @@
 
 import json
 
+import multihash
 import pytest
 from cid import make_cid
-import multihash
 
 from dag import Block, is_cid
-from dag.codecs.dag_json import DagJsonCodec, codec, encode, decode
+from dag.codecs.dag_json import codec, decode, encode
 
 
 class DagJsonBasicTestCase:

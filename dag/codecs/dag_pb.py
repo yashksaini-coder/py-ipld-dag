@@ -1,15 +1,15 @@
-"""DAG-PB codec – Protobuf-based Merkle DAG nodes.
+"""DAG-PB codec - Protobuf-based Merkle DAG nodes.
 
 Multicodec code: ``0x70``
 
 DAG-PB uses Protocol Buffers for encoding. It is the codec used by
 legacy IPFS (UnixFS). A DAG-PB node (``PBNode``) consists of:
 
-- ``Data``  – optional raw bytes payload
-- ``Links`` – a list of ``PBLink`` entries, each containing:
-  - ``Hash``  – a CID (as raw bytes)
-  - ``Name``  – an optional UTF-8 string name
-  - ``Tsize`` – an optional integer (total cumulative size)
+- ``Data``  - optional raw bytes payload
+- ``Links`` - a list of ``PBLink`` entries, each containing:
+  - ``Hash``  - a CID (as raw bytes)
+  - ``Name``  - an optional UTF-8 string name
+  - ``Tsize`` - an optional integer (total cumulative size)
 
 **Protobuf schema** (proto2)::
 
@@ -44,7 +44,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from cid import CIDv0, CIDv1, from_bytes as cid_from_bytes, make_cid
+from cid import from_bytes as cid_from_bytes
 
 from ..codec import BlockCodec, register_codec
 from ..ipld_model import CID, IPLDNode, is_cid
@@ -371,4 +371,4 @@ decode = codec.decode
 
 register_codec(codec)
 
-__all__ = ["DagPbCodec", "PBNode", "PBLink", "codec", "encode", "decode"]
+__all__ = ["DagPbCodec", "PBLink", "PBNode", "codec", "decode", "encode"]

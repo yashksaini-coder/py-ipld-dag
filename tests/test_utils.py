@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 """Tests for utility functions."""
 
-import pytest
-
-from cid import make_cid
 import multihash
+import pytest
+from cid import make_cid
 
 from dag import is_cid
 from dag.utils import (
-    create_cid,
-    cid_to_bytes,
     bytes_to_cid,
+    cid_to_bytes,
     cid_to_string,
-    string_to_cid,
     collect_links,
+    create_cid,
+    string_to_cid,
 )
 
 

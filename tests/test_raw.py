@@ -4,7 +4,7 @@
 import pytest
 
 from dag import Block
-from dag.codecs.raw import RawCodec, codec, encode, decode
+from dag.codecs.raw import codec, decode, encode
 
 
 class RawBasicTestCase:

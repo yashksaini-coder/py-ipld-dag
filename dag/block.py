@@ -1,4 +1,4 @@
-"""Block – the fundamental unit of data in IPLD.
+"""Block - the fundamental unit of data in IPLD.
 
 A **Block** binds together three things:
 1. The raw encoded ``bytes``
@@ -15,14 +15,13 @@ Reference: https://github.com/multiformats/js-multiformats
 
 from __future__ import annotations
 
-from typing import Any, Iterator, Union
+from typing import Any, Iterator
 
 import multihash as _multihash
-from cid import CIDv0, CIDv1, make_cid
+from cid import make_cid
 
 from .codec import BlockCodec, get_codec
 from .ipld_model import CID, IPLDNode, is_cid
-from .multicodec_codes import DAG_PB_CODE
 
 
 class Block:
@@ -32,7 +31,7 @@ class Block:
     rather than calling ``__init__`` directly.
     """
 
-    __slots__ = ("_cid", "_bytes", "_value", "_codec")
+    __slots__ = ("_bytes", "_cid", "_codec", "_value")
 
     def __init__(
         self,

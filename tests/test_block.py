@@ -2,11 +2,9 @@
 """Tests for the Block class."""
 
 import pytest
-from cid import make_cid
-import multihash
 
 from dag import Block, is_cid
-from dag.codecs import dag_cbor, dag_json, dag_pb, raw
+from dag.codecs import dag_cbor
 
 
 class BlockEncodeTestCase:

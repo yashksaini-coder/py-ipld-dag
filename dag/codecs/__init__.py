@@ -2,10 +2,10 @@
 
 This sub-package provides the built-in IPLD codecs:
 
-- ``dag_cbor`` – DAG-CBOR (``0x71``)
-- ``dag_json`` – DAG-JSON (``0x0129``)
-- ``dag_pb``   – DAG-PB   (``0x70``)
-- ``raw``      – Raw      (``0x55``)
+- ``dag_cbor`` - DAG-CBOR (``0x71``)
+- ``dag_json`` - DAG-JSON (``0x0129``)
+- ``dag_pb``   - DAG-PB   (``0x70``)
+- ``raw``      - Raw      (``0x55``)
 
 All codecs are auto-registered when this package is imported.
 """

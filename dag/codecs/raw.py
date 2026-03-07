@@ -1,4 +1,4 @@
-"""Raw codec – identity codec for raw binary data.
+"""Raw codec - identity codec for raw binary data.
 
 Multicodec code: ``0x55``
 

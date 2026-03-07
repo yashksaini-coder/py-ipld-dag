@@ -1,4 +1,4 @@
-"""DAG-CBOR codec – deterministic CBOR with IPLD CID links.
+"""DAG-CBOR codec - deterministic CBOR with IPLD CID links.
 
 Multicodec code: ``0x71``
 
@@ -21,7 +21,8 @@ from __future__ import annotations
 from typing import Any
 
 import cbor2
-from cid import CIDv0, CIDv1, from_bytes as cid_from_bytes, make_cid
+from cid import from_bytes as cid_from_bytes
+from cid import make_cid
 
 from ..codec import BlockCodec, register_codec
 from ..ipld_model import CID, IPLDNode, is_cid

@@ -1,4 +1,4 @@
-"""IPLD Data Model – the universal representation layer.
+"""IPLD Data Model - the universal representation layer.
 
 The IPLD Data Model defines the following *kinds* of values that can
 appear in any IPLD node:
@@ -41,7 +41,7 @@ class Kind(enum.Enum):
 
 
 CID = Union[CIDv0, CIDv1]
-"""A Content IDentifier – either CIDv0 or CIDv1."""
+"""A Content IDentifier - either CIDv0 or CIDv1."""
 
 IPLDNode = Union[
     None,

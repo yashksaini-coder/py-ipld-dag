@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Tests for the legacy dag module (backward compatibility)."""
 
-import pytest
 
 
 class LegacyImportTestCase:
