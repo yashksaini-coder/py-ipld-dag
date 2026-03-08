@@ -15,7 +15,9 @@ Reference: https://github.com/multiformats/js-multiformats
 
 from __future__ import annotations
 
-from typing import Any, Iterator
+import builtins
+from collections.abc import Iterator
+from typing import Any
 
 import multihash as _multihash
 from cid import make_cid
@@ -37,7 +39,7 @@ class Block:
         self,
         *,
         cid: CID,
-        data: bytes,
+        data: builtins.bytes,
         value: IPLDNode,
         codec: BlockCodec | None = None,
     ) -> None:
@@ -74,7 +76,7 @@ class Block:
         codec: BlockCodec | int,
         hasher: str = "sha2-256",
         version: int = 1,
-    ) -> "Block":
+    ) -> Block:
         """Encode an IPLD value into a new Block.
 
         Parameters
@@ -101,11 +103,11 @@ class Block:
     def decode(
         cls,
         *,
-        data: bytes,
+        data: builtins.bytes,
         codec: BlockCodec | int,
         hasher: str = "sha2-256",
         version: int = 1,
-    ) -> "Block":
+    ) -> Block:
         """Decode raw bytes into a Block.
 
         Parameters
@@ -131,11 +133,11 @@ class Block:
     def create(
         cls,
         *,
-        data: bytes,
+        data: builtins.bytes,
         cid: CID,
         value: IPLDNode,
         codec: BlockCodec | None = None,
-    ) -> "Block":
+    ) -> Block:
         """Create a Block from pre-computed parts.
 
         No encoding, decoding, or hashing is performed.

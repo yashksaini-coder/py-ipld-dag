@@ -36,9 +36,7 @@ class RawCodec(BlockCodec):
         *node* must be a ``bytes`` or ``bytearray`` instance.
         """
         if not isinstance(node, (bytes, bytearray)):
-            raise TypeError(
-                f"Raw codec can only encode bytes, got {type(node).__name__}"
-            )
+            raise TypeError(f"Raw codec can only encode bytes, got {type(node).__name__}")
         return bytes(node)
 
     def decode(self, data: bytes) -> IPLDNode:

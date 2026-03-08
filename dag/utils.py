@@ -11,7 +11,7 @@ import multihash as _multihash
 from cid import from_bytes as cid_from_bytes
 from cid import make_cid
 
-from .ipld_model import CID, is_cid
+from .ipld_model import CID
 
 
 def create_cid(
@@ -81,20 +81,10 @@ def collect_links(value: Any) -> list[tuple[str, CID]]:
     """Collect all CID links from an IPLD data-model value.
 
     Returns a list of ``(path, cid)`` tuples.
+
+    Uses :func:`dag.block._walk_links` internally to avoid
+    duplicating the recursive traversal logic.
     """
-    results: list[tuple[str, CID]] = []
-    _walk(value, "", results)
-    return results
+    from .block import _walk_links
 
-
-def _walk(node: Any, prefix: str, out: list[tuple[str, CID]]) -> None:
-    if is_cid(node):
-        out.append((prefix, node))
-    elif isinstance(node, dict):
-        for k, v in node.items():
-            child = f"{prefix}/{k}" if prefix else k
-            _walk(v, child, out)
-    elif isinstance(node, list):
-        for i, v in enumerate(node):
-            child = f"{prefix}/{i}" if prefix else str(i)
-            _walk(v, child, out)
+    return list(_walk_links(value, ""))

@@ -5,7 +5,6 @@ Ensures that CIDs created by one codec can be embedded and
 recovered by another codec correctly.
 """
 
-
 from dag import Block, is_cid
 from dag.codecs import dag_cbor, dag_json, dag_pb, raw
 

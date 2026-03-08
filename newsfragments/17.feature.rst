@@ -1,0 +1,1 @@
+Add Block API, IPLD data-model layer, multicodec registry, and four codec implementations (DAG-CBOR, DAG-JSON, DAG-PB, raw). The new design mirrors the JS multiformats ecosystem with encode/decode/create class methods, CID-based addressing, and pluggable codec registration.

@@ -151,10 +151,12 @@ class DagPbValidationTestCase:
 
     def test_invalid_link_hash_type(self):
         with pytest.raises(TypeError):
-            encode({
-                "Data": b"test",
-                "Links": [{"Hash": "not a cid"}],
-            })
+            encode(
+                {
+                    "Data": b"test",
+                    "Links": [{"Hash": "not a cid"}],
+                }
+            )
 
 
 class DagPbBlockTestCase:

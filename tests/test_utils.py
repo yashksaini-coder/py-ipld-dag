@@ -17,7 +17,6 @@ from dag.utils import (
 
 
 class CreateCidTestCase:
-
     def test_create_cid_v1(self):
         c = create_cid(b"hello world", codec="dag-cbor")
         assert is_cid(c)
@@ -30,7 +29,6 @@ class CreateCidTestCase:
 
 
 class CidConversionTestCase:
-
     @pytest.fixture
     def sample_cid(self):
         mh = multihash.digest(b"test", "sha2-256")
@@ -48,7 +46,6 @@ class CidConversionTestCase:
 
 
 class CollectLinksTestCase:
-
     @pytest.fixture
     def sample_cid(self):
         mh = multihash.digest(b"test", "sha2-256")

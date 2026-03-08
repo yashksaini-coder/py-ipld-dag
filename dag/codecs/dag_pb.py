@@ -102,22 +102,33 @@ def _encode_varint(value: int) -> bytes:
     return bytes(parts)
 
 
+_MAX_VARINT_BYTES = 10
+
+
 def _decode_varint(data: bytes, offset: int) -> tuple[int, int]:
     """Decode a varint from *data* at *offset*.
 
     Returns ``(value, new_offset)``.
+
+    Raises ``ValueError`` if the varint exceeds 10 bytes (the maximum
+    needed for a 64-bit value), which guards against malformed input
+    causing unbounded iteration.
     """
     result = 0
     shift = 0
+    bytes_read = 0
     while True:
         if offset >= len(data):
             raise ValueError("Unexpected end of data while reading varint")
         byte = data[offset]
         result |= (byte & 0x7F) << shift
         offset += 1
+        bytes_read += 1
         if not (byte & 0x80):
             break
         shift += 7
+        if bytes_read >= _MAX_VARINT_BYTES:
+            raise ValueError(f"Varint exceeds {_MAX_VARINT_BYTES} bytes, input is malformed")
     return result, offset
 
 
@@ -262,9 +273,7 @@ def _prepare_node(value: Any) -> PBNode:
         return value
 
     if not isinstance(value, dict):
-        raise TypeError(
-            f"DAG-PB encode expects a PBNode or dict, got {type(value).__name__}"
-        )
+        raise TypeError(f"DAG-PB encode expects a PBNode or dict, got {type(value).__name__}")
 
     data = value.get("Data")
     if data is not None and not isinstance(data, (bytes, bytearray)):

@@ -79,8 +79,7 @@ def get_codec(code: int) -> BlockCodec:
     """
     if code not in _codec_registry:
         raise KeyError(
-            f"No codec registered for code 0x{code:x}. "
-            f"Registered: {sorted(f'0x{c:x}' for c in _codec_registry)}"
+            f"No codec registered for code 0x{code:x}. Registered: {sorted(f'0x{c:x}' for c in _codec_registry)}"
         )
     return _codec_registry[code]
 

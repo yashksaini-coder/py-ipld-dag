@@ -115,13 +115,27 @@ def _decode_cid_bytes(raw_bytes: bytes) -> CID:
     The py-cid ``from_bytes`` works for CIDv1 (which has a leading
     version byte 0 or 1). For CIDv0 raw multihash bytes we need
     to construct the CID directly.
+
+    .. note:: Version assumption
+
+       Currently only CIDv0 and CIDv1 exist.  Any first byte that
+       is not ``0x01`` (CIDv1) is treated as a raw multihash and
+       wrapped as CIDv0 (``dag-pb``).  If a CIDv2 is ever
+       introduced this logic will need to be revisited.  The
+       identity hash function code (``0x00``) is *not* a valid
+       CIDv0 multihash prefix in practice (CIDv0 always uses
+       sha2-256, code ``0x12``), so the current heuristic is safe
+       for all real-world data.
     """
     if len(raw_bytes) < 2:
         raise ValueError("CID bytes too short")
 
+    # CIDv1: first byte is the version marker 0x01
     if raw_bytes[0] == 0x01:
         return cid_from_bytes(raw_bytes)
 
+    # CIDv0: raw multihash bytes (no version prefix).  CIDv0 is
+    # always dag-pb with sha2-256, so the first byte should be 0x12.
     return make_cid(0, "dag-pb", raw_bytes)
 
 
