@@ -42,6 +42,9 @@ import dag
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'myst_parser']
 
+# Suppress duplicate cross-reference warnings from re-exported symbols
+suppress_warnings = ['ref.python']
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
