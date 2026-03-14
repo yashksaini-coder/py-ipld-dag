@@ -57,6 +57,26 @@ pb_block = Block.encode(
 raw_block = Block.encode(value=b"raw binary", codec=raw.codec)
 ```
 
+## Examples
+
+Example scripts are available in [`examples/`](examples/), including
+Python equivalents of `js-multiformats` interface demos:
+
+- `examples/block_interface/block_interface.py`
+- `examples/cid_interface/cid_interface.py`
+- `examples/multicodec_interface/multicodec_interface.py`
+- `examples/multihash_interface/multihash_interface.py`
+
+Run them from the repository root:
+
+```bash
+source venv/bin/activate
+python -m examples.block_interface.block_interface
+python -m examples.cid_interface.cid_interface
+python -m examples.multicodec_interface.multicodec_interface
+python -m examples.multihash_interface.multihash_interface
+```
+
 ## Installation and usage
 
 Installation (venv, pip/uv, stable and development) and usage are documented in the [docs](https://py-ipld-dag.readthedocs.io/en/latest/) — see **Installation** and **Usage** in the table of contents.

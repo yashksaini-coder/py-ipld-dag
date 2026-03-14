@@ -1,0 +1,1 @@
+"""Multicodec interface example package."""
