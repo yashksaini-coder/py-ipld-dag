@@ -1,21 +1,16 @@
-#!/usr/bin/env python
-
-"""Tests for `dag` package."""
-
-import pytest
+#!/usr/bin/env python3
+"""Tests for the legacy dag module (backward compatibility)."""
 
 
-@pytest.fixture
-def response():
-    """Sample pytest fixture.
+class LegacyImportTestCase:
+    """Verify the legacy dag module still imports."""
 
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+    def test_import_node_class(self):
+        from dag.dag import Node
 
+        assert Node is not None
 
-def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+    def test_import_link_class(self):
+        from dag.dag import Link
+
+        assert Link is not None

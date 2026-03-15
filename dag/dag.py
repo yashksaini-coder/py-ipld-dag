@@ -3,9 +3,26 @@ from copy import deepcopy
 
 import base58
 import multihash
-from morphys import ensure_bytes
 
 from .utils import node_to_link
+
+
+def _ensure_bytes(value):
+    """Convert a value to bytes.
+
+    Accepts bytes, bytearray, memoryview, or str (encoded as UTF-8).
+    Replaces the removed ``morphys.ensure_bytes`` dependency.
+    """
+    if isinstance(value, bytes):
+        return value
+    if isinstance(value, bytearray):
+        return bytes(value)
+    if isinstance(value, memoryview):
+        return bytes(value)
+    if isinstance(value, str):
+        return value.encode("utf-8")
+    raise TypeError(f"Cannot convert {type(value).__name__} to bytes")
+
 
 # Design plan:
 # Separate serialization from the node creation, serialization is
@@ -18,7 +35,7 @@ from .utils import node_to_link
 # @TODO: get over all the data copying overhead involved
 class Node:
     def __init__(self, data, links, serialized, multihash):
-        self._data = ensure_bytes(data)
+        self._data = _ensure_bytes(data)
 
         if isinstance(multihash, bytes):
             self._multihash = base58.b58decode(multihash)
@@ -52,7 +69,7 @@ class Node:
     @classmethod
     def create(cls, data, links=None, hash_algorithm="sha2-256", serializer=json.dumps):
         links = [link for link in links if isinstance(link, Link)] if links is not None else []
-        serialized = ensure_bytes(serializer({"data": data, "links": links}))
+        serialized = _ensure_bytes(serializer({"data": data, "links": links}))
         mh = multihash.digest(serialized, hash_algorithm).encode("base58")
 
         return Node(data, links, serialized, mh)

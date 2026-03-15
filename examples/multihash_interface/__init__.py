@@ -1,0 +1,1 @@
+"""Multihash interface example package."""

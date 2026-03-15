@@ -346,44 +346,45 @@ guide on
 Adding Examples
 ~~~~~~~~~~~~~~~
 
-To add a new example (e.g., identify):
+Organize examples in a package-style layout
+(one package directory per example) and follow the workflow below.
 
-1. Create a directory in ``examples/identify``
-2. Create a file ``examples/identify/identify.py`` with the example code
-3. Add ``__init__.py`` to make it a proper Python package (automatically discovered by find_packages() in ``setup.py``)
-4. Add the example in the example list ``docs/examples.rst``
-5. Add example tests in ``tests/core/examples/test_examples.py``
-6. Add the example documentation in ``docs/examples.identify.rst``
-7. Add a news fragment for the new release in file ``newsfragments/536.feature.rst`` (fix-id.type.rst)
-8. Generate doc files with ``make docs`` or ``make linux-docs`` in linux (generates files ``libp2p.identity.identify.rst libp2p.identity.rst libp2p.identity.identify.pb.rst``)
-9. Add the example to ``setup.py``:
+To add a new example (actual ``py-ipld-dag`` example: ``cid_interface``):
 
-   .. code:: python
-
-       entry_points={
-           "console_scripts": [
-               "chat-demo=examples.chat.chat:main",
-               "echo-demo=examples.echo.echo:main",
-               "ping-demo=examples.ping.ping:main",
-               "identify-demo=examples.identify.identify:main",
-               "circuit-relay-demo=examples.circuit_relay.relay_example:main"
-           ],
-       }
-
-10. Run ``make package-test`` to test the release:
+1. Create a package directory in ``examples/cid_interface``.
+2. Create ``examples/cid_interface/cid_interface.py`` with the example code.
+3. Add ``examples/cid_interface/__init__.py`` so it is importable as a package.
+4. Add/update an examples index page in docs (for example ``docs/examples.rst``), and
+   include it from ``docs/index.rst``.
+5. Add example tests (for example ``tests/examples/test_cid_interface.py``).
+6. Add dedicated docs page for the example (for example ``docs/examples.cid_interface.rst``).
+7. Add or update the examples list in ``examples/README.md`` and ``README.md``.
+8. Add a newsfragment under ``newsfragments/`` using
+   ``<ISSUE_OR_PR_NUMBER>.<TYPE>.rst`` when the change is user-facing.
+9. Optionally expose it as a CLI script via ``pyproject.toml`` ``[project.scripts]``
+   (``py-ipld-dag`` uses ``pyproject.toml``, not ``setup.py``).
+10. Run project checks:
 
     .. code:: sh
 
-        .....
-        Activate with `source /tmp/tmpb9ybjgtg/package-smoke-test/bin/activate`
-        Press enter when the test has completed. The directory will be deleted.
+        make pr
+        make docs-ci
 
-    Then test the example:
+Actual py-ipld-dag example (package-style layout)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    .. code:: sh
+Example file: ``examples/cid_interface/cid_interface.py``
 
-        source /tmp/tmpb9ybjgtg/package-smoke-test/bin/activate
-        (package-smoke-test) $ identify-demo
+.. literalinclude:: ../examples/cid_interface/cid_interface.py
+   :language: python
+
+Run it:
+
+.. code:: sh
+
+    source venv/bin/activate
+    python -m examples.cid_interface.cid_interface
+    python -m examples.cid_interface.cid_interface --json
 
 Pull Requests
 ~~~~~~~~~~~~~
