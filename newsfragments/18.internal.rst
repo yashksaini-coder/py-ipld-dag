@@ -1,0 +1,4 @@
+Align the project's Pull Request workflow with ``py-libp2p`` by requiring a
+corresponding issue for every PR. Updated ``CONTRIBUTING.md``,
+``newsfragments/README.md``, and the validation script to mandate that all
+newsfragments use numeric issue numbers.
