@@ -130,8 +130,8 @@ replace = 'version = "{new_version}"'
 
 [[tool.bumpversion.files]]
 filename = "dag/__init__.py"
-search = "__version__ = '{current_version}'"
-replace = "__version__ = '{new_version}'"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
 
 [tool.towncrier]
 # Read https://github.com/ipld/py-ipld-dag/blob/master/newsfragments/README.md for instructions

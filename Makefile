@@ -140,9 +140,9 @@ validate-newsfragments:
 	towncrier build --draft --version preview
 
 check-git:
-	# require that upstream is configured for libp2p/py-libp2p
-	@if ! git remote -v | grep "upstream[[:space:]]git@github.com:libp2p/py-libp2p.git (push)\|upstream[[:space:]]https://github.com/libp2p/py-libp2p (push)"; then \
-		echo "Error: You must have a remote named 'upstream' that points to 'py-libp2p'"; \
+	# require that upstream is configured for ipld/py-ipld-dag
+	@if ! git remote -v | grep "upstream[[:space:]]git@github.com:ipld/py-ipld-dag.git (push)\|upstream[[:space:]]https://github.com/ipld/py-ipld-dag (push)"; then \
+		echo "Error: You must have a remote named 'upstream' that points to 'py-ipld-dag'"; \
 		exit 1; \
 	fi
 

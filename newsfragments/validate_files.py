@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+
+# Towncrier silently ignores files that do not match the expected ending.
+# We use this script to ensure we catch these as errors in CI
+
 import pathlib
 import sys
 
