@@ -11,6 +11,8 @@ Contributions are welcome. Every little bit helps, and credit will always be giv
 
 ## Getting started
 
+1. **Open an issue** at [GitHub Issues](https://github.com/ipld/py-ipld-dag/issues) to discuss the bug or feature you want to address. This ensures that the change is aligned with the project's goals.
+
 1. **Fork** the [repo](https://github.com/ipld/py-ipld-dag) and **clone** your fork.
 
 1. **Install** for development (from repo root). This project uses uv for dependency management.
@@ -54,4 +56,4 @@ Contributions are welcome. Every little bit helps, and credit will always be giv
 - Include tests where appropriate.
 - Update docs if you add functionality (docstrings and/or README/docs).
 - Ensure tests pass for Python 3.10–3.14 (see [GitHub Actions](https://github.com/ipld/py-ipld-dag/actions)).
-- If your change should appear in the release notes, add a **newsfragment** as explained in [newsfragments/README.md](newsfragments/README.md): create a file under `newsfragments/` named `<ISSUE>.<TYPE>.rst` (e.g. `123.feature.rst`, `456.bugfix.rst`). Use the issue number the PR addresses, or the PR number if there is no issue. Run `towncrier build --draft` to preview. If possible, add the newsfragment in the same commit that introduces the change.
+- If your change should appear in the release notes, add a **newsfragment** as explained in [newsfragments/README.md](newsfragments/README.md): create a file under `newsfragments/` named `<ISSUE>.<TYPE>.rst` (e.g. `123.feature.rst`, `456.bugfix.rst`). Use the issue number the PR addresses. Run `towncrier build --draft` to preview. If possible, add the newsfragment in the same commit that introduces the change.
