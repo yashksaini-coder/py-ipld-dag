@@ -20,8 +20,9 @@ Each file should be named like `<ISSUE>.<TYPE>.rst`, where
 
 So for example: `123.feature.rst`, `456.bugfix.rst`
 
-If the PR fixes an issue, use that number here. If there is no issue,
-then open up the PR first and use the PR number for the newsfragment.
+All Pull Requests must address an existing issue. If there is no issue,
+please open one first before submitting your changes. Use the issue
+number for the newsfragment filename.
 
 Note that the `towncrier` tool will automatically
 reflow your text, so don't try to do any fancy formatting. Run

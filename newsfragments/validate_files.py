@@ -29,6 +29,11 @@ for file in dir.iterdir():
         full_extension = "".join(file.suffixes)
         if full_extension not in ALLOWED_EXTENSIONS:
             raise Exception(f"Unexpected file:{file}")
+
+        # Verify that it starts with an issue number
+        prefix = file.name.split(".")[0]
+        if not prefix.isdigit():
+            raise Exception(f"Newsfragment must start with an issue number: {file.name}")
     elif sys.argv[1] == "is-empty":
         raise Exception(f"Unexpected file: {file}")
     else:
