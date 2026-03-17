@@ -3,6 +3,16 @@ Release notes
 
 .. towncrier release notes start
 
+py-ipld-dag v0.2.1 (2026-03-17)
+-------------------------------
+
+Improved Documentation
+~~~~~~~~~~~~~~~~~~~~~~
+
+- Fix documentation: all ReadTheDocs links and badge now point to ``py-ipld-dag.readthedocs.io``.
+  Contributor docs now list only ``make`` as a system prerequisite (removed incorrect CMake, pkg-config, and GMP requirements). (`#21 <https://github.com/ipld/py-ipld-dag/issues/21>`__)
+
+
 py-ipld-dag v0.2.0 (2026-03-15)
 -------------------------------
 
