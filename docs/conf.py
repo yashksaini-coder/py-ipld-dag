@@ -58,7 +58,7 @@ source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 master_doc = 'index'
 
 # General information about the project.
-project = u'MerkelDAG implementation in Python'
+project = u'py-ipld-dag'
 copyright = u"2017, Dhruv Baldawa"
 
 # The version info for the project you're documenting, acts as replacement
@@ -203,7 +203,7 @@ html_sidebars = {
 }
 
 html_theme_options = {
-    'github_user': 'dhruvbaldawa',
+    'github_user': 'ipld',
     'github_repo': 'py-ipld-dag',
     'github_button': True,
     'github_banner': True,

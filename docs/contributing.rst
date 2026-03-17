@@ -25,17 +25,11 @@ Linux Setup
 Prerequisites
 """""""""""""
 
-On Debian Linux, you need to install the following dependencies:
-
-- `GNU Multiprecision Arithmetic Library <https://gmplib.org/>`_
-- `CMake <https://cmake.org>`_
-- `freedesktop.org pkg-config <https://www.freedesktop.org/wiki/Software/pkg-config>`_
-
-Install them with:
+On Debian Linux, install ``make`` if needed (e.g. for ``make test``, ``make docs-ci``):
 
 .. code:: sh
 
-    sudo apt-get install cmake pkg-config libgmp-dev
+    sudo apt install make
 
 Setup Steps
 """""""""""
@@ -98,17 +92,7 @@ macOS Setup
 Prerequisites
 """""""""""""
 
-On macOS, you need to install the following dependencies:
-
-- `GNU Multiprecision Arithmetic Library <https://gmplib.org/>`_
-- `CMake <https://cmake.org>`_
-- `freedesktop.org pkg-config <https://www.freedesktop.org/wiki/Software/pkg-config>`_
-
-Install them with:
-
-.. code:: sh
-
-    brew install cmake pkgconfig gmp
+On macOS, ``make`` is usually already available (e.g. via Xcode Command Line Tools: ``xcode-select --install``). No other system packages are required.
 
 Setup Steps
 """""""""""
@@ -146,12 +130,6 @@ Then set up the development environment:
     uv pip install --group dev -e .
     pre-commit install
 
-On macOS, help the build command find and link against the ``gmp`` library:
-
-.. code:: sh
-
-    CFLAGS="`pkg-config --cflags gmp`" LDFLAGS="`pkg-config --libs gmp`" uv pip install --group dev -e .
-
 **Option 2: Manual setup with pip:**
 
 .. code:: sh
@@ -162,13 +140,6 @@ On macOS, help the build command find and link against the ``gmp`` library:
     pip install --upgrade pip  # Ensure pip >= 25.1 for PEP 735 support
     pip install --group dev -e .
     pre-commit install
-
-On macOS, help the build command find and link against the ``gmp`` library:
-
-.. code:: sh
-
-    pip install --upgrade pip  # Ensure pip >= 25.1 for PEP 735 support
-    CFLAGS="`pkg-config --cflags gmp`" LDFLAGS="`pkg-config --libs gmp`" pip install --group dev -e .
 
 **Note:** This project uses PEP 735 ``[dependency-groups]`` which requires pip >= 25.1.
 If you have an older pip version, upgrade it first.
@@ -190,7 +161,7 @@ Windows Development Setup
 Prerequisites
 """""""""""""
 
-1. **Python 3.11+**
+1. **Python 3.10+**
    - Download and install Python from `python.org <https://www.python.org/downloads/>`_ or the Microsoft Store.
    - Verify installation:
 
@@ -207,16 +178,7 @@ Prerequisites
         winget install --id Git.Git -e
         git --version
 
-3. **CMake**
-   - Install CMake with ``winget`` or download from `cmake.org <https://cmake.org/download/>`_.
-   - Add CMake to your PATH during installation, then verify:
-
-   .. code:: powershell
-
-        winget install --id Kitware.CMake -e
-        cmake --version
-
-4. **Make**
+3. **Make**
     - Option 1: Use Git Bash (included with Git) as a shell.
     - Option 2: Install ``make`` via Chocolatey (install Chocolatey first if needed: `choco.io <https://chocolatey.org/install>`_).
     - Verify installation:
@@ -336,13 +298,6 @@ This library uses type hints, which are enforced by the ``mypy`` tool (part of t
 ``pre-commit`` checks). All new code is required to land with type hints, with the
 exception of code within the ``tests`` directory.
 
-Documentation
-~~~~~~~~~~~~~
-
-Good documentation will lead to quicker adoption and happier users. Please check out our
-guide on
-`how to create documentation for the Python Ethereum ecosystem <https://github.com/ethereum/snake-charmers-tactical-manual/blob/main/documentation.md>`_.
-
 Adding Examples
 ~~~~~~~~~~~~~~~
 
@@ -395,7 +350,7 @@ a discussion, and doesn't necessarily need to be the final, finished submission.
 GitHub's documentation for working on pull requests is
 `available here <https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>`_.
 
-Once you've made a pull request, take a look at the Circle CI build status in the
+Once you've made a pull request, take a look at the GitHub Actions build status in the
 GitHub interface and make sure all tests are passing. In general pull requests that
 do not pass the CI build yet won't get reviewed unless explicitly requested.
 
@@ -409,9 +364,9 @@ introduces the feature or bugfix.
 Releasing
 ~~~~~~~~~
 
-Releases are typically done from the ``main`` branch (this repo uses ``master``).
-This project does not define ``make notes``, ``make release``, or ``make package-test``;
-use the tools directly as below.
+Releases are typically done from the ``master`` branch.
+This project defines ``make notes`` and ``make release`` in the repository
+``Makefile``.
 
 Final test before each release
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -440,28 +395,24 @@ updates ``docs/release_notes.rst``):
 
 .. code:: sh
 
-    towncrier build --version VERSION
+    make notes bump=PART
 
-Use the version you are about to release (e.g. ``0.1.1``). Check the updated
-``docs/release_notes.rst``, then commit it.
+Use ``PART`` as ``patch``, ``minor``, or ``major``. This generates the release notes for
+the upcoming version and commits the result.
 
 Bump version and tag
 ^^^^^^^^^^^^^^^^^^^^
 
-Bump the version in ``pyproject.toml`` and ``dag/__init__.py``, commit, and tag:
+Bump the version, build the package, push the release commit and tag, and upload to
+PyPI:
 
 .. code:: sh
 
-    bump-my-version bump PART
+    make release bump=PART
 
-where ``PART`` is ``patch``, ``minor``, or ``major``. This creates a commit and a tag
-(e.g. ``v0.1.1``). Then build the package, push the commit and tag, and upload to PyPI:
-
-.. code:: sh
-
-    python -m build
-    git push && git push --tags
-    twine upload dist/*
+where ``PART`` is ``patch``, ``minor``, or ``major``. This creates a version bump
+commit and tag (e.g. ``v0.1.1``), builds the package, pushes the commit and tag, and
+uploads the distribution.
 
 Which version part to bump
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
